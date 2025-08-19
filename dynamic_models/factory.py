@@ -81,6 +81,7 @@ class FieldFactory:
         "float": models.FloatField,
         "boolean": models.BooleanField,
         "date": models.DateTimeField,
+        "geometry":django.contrib.gis.db.models.GeometryField
     }
 
     def __init__(self, field_schema):
