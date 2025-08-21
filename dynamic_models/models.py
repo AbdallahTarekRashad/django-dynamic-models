@@ -23,8 +23,10 @@ class ModelSchema(models.Model):
         super().save(**kwargs)
         cache.update_last_modified(self.model_name)
         cache.update_last_modified(self.initial_model_name)
-        self._schema_editor.update_table(self._factory.make_model())
         self._initial_name = self.name
+
+    def create_or_update_table(self):
+        self._schema_editor.update_table(self._factory.make_model())
 
     def delete(self, **kwargs):
         self._schema_editor.drop_table(self.as_model())
@@ -91,6 +93,8 @@ class FieldSchema(models.Model):
         self.validate()
         super().save(**kwargs)
         self.update_last_modified()
+
+    def create_or_update_column(self):
         model, field = self._get_model_with_field()
         self._schema_editor.update_column(model, field)
 
